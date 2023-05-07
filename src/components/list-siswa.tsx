@@ -1,13 +1,22 @@
-import React, { useState } from 'react';
-import { Layout, theme } from 'antd';
+import React, { useState, useEffect } from 'react';
+import { Layout, theme, Skeleton } from 'antd';
 import TableSiswa from './table-siswa';
 
 const { Content } = Layout;
 
 const ListSiswa: React.FC = () => {
+  const [loading, setLoading] = useState(true)
+
   const {
     token: { colorBgContainer },
   } = theme.useToken();
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false)
+    }, 1000);
+
+  },[loading])
 
   return (
     <Content
@@ -19,7 +28,12 @@ const ListSiswa: React.FC = () => {
             color: 'black'
         }}
     >
-        <TableSiswa/>
+      <Skeleton loading={loading} active/>
+        { 
+          !loading && (
+            <TableSiswa/>
+          )
+        }
     </Content>
   );
 };

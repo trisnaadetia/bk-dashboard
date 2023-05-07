@@ -10,6 +10,7 @@ import { Layout, Menu, theme } from 'antd';
 import type { MenuProps } from 'antd';
 import { Button, Dropdown, message, Space, Tooltip } from 'antd';
 import ListSiswa from '@/components/list-siswa';
+import AddDataSiswa from '@/components/add-data-siswa';
 
 const { Header, Sider, Content } = Layout;
 
@@ -79,7 +80,13 @@ const Index: React.FC = () => {
             Halo, Riska Elsa Pratiwi
           </Dropdown.Button> */}
         </Header>
-        <ListSiswa/>
+        {
+          menuKey === '1' ? (
+            <ListSiswa/>
+          ) : (
+            <AddDataSiswa/>
+          )
+        }
       </Layout>
     </Layout>
   );

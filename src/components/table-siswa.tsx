@@ -5,14 +5,15 @@ import type { FilterConfirmProps } from 'antd/es/table/interface';
 import { SearchOutlined } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
 import Image from 'next/image';
+import { toRoman } from 'typescript-roman-numbers-converter'
 
 interface DataType {
-  key: React.Key;
-  name: string;
-  kelas: number;
-  jenisPelanggaran: string[];
-  totalScore: number;
-  jenisKelamin: string;
+    key: React.Key;
+    name: string;
+    kelas: number;
+    jenisPelanggaran: string[];
+    totalScore: number;
+    jenisKelamin: string;
 }
 
 type DataIndex = keyof DataType;
@@ -149,7 +150,10 @@ const TableSiswa: React.FC = () => {
             compare: (a, b) => a.kelas - b.kelas,
             multiple: 2,
         },
-        width: '10%'
+        width: '10%',
+        render: (kelas: number) => (
+            <span>{toRoman(kelas)}</span>
+        )
     },
     {
         title: 'Jenis Pelanggaran',
