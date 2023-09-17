@@ -9,6 +9,8 @@ import {
 import { Layout, Menu, theme } from 'antd';
 import type { MenuProps } from 'antd';
 import { Button, Dropdown, message, Space, Tooltip } from 'antd';
+import ListSiswa from '@/components/list-siswa';
+import AddDataSiswa from '@/components/add-data-siswa';
 
 const { Header, Sider, Content } = Layout;
 
@@ -36,6 +38,8 @@ const menuProps = {
 
 const Index: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
+  const [menuKey, setMenuKey] = useState('1');
+
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -50,6 +54,7 @@ const Index: React.FC = () => {
           theme="dark"
           mode="inline"
           defaultSelectedKeys={['1']}
+          onSelect={({ item, key}) => setMenuKey(key)}
           items={[
             {
               key: '1',
@@ -75,16 +80,13 @@ const Index: React.FC = () => {
             Halo, Riska Elsa Pratiwi
           </Dropdown.Button> */}
         </Header>
-        <Content
-          style={{
-            margin: '24px 16px',
-            padding: 24,
-            minHeight: 280,
-            background: colorBgContainer,
-          }}
-        >
-          Content
-        </Content>
+        {
+          menuKey === '1' ? (
+            <ListSiswa/>
+          ) : (
+            <AddDataSiswa/>
+          )
+        }
       </Layout>
     </Layout>
   );
