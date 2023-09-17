@@ -21,7 +21,6 @@ const AddPelanggaran: React.FC = () => {
 
   return (
     <Select
-      size="large"
       placeholder="Pilih Jenis Pelanggaran"
       onChange={handleChange}
       options={options}

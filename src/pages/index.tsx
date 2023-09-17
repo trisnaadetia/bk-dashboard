@@ -4,13 +4,15 @@ import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   UploadOutlined,
-  UserOutlined
+  UserOutlined,
+  TableOutlined
 } from '@ant-design/icons';
 import { Layout, Menu, theme } from 'antd';
 import type { MenuProps } from 'antd';
 import { Button, Dropdown, message, Space, Tooltip } from 'antd';
 import ListSiswa from '@/components/list-siswa';
 import AddDataSiswa from '@/components/add-data-siswa';
+import ListPelanggaran from '@/components/list-pelanggaran';
 
 const { Header, Sider, Content } = Layout;
 
@@ -59,13 +61,18 @@ const Index: React.FC = () => {
             {
               key: '1',
               icon: <UserOutlined />,
-              label: 'List Siswa',
+              label: 'Daftar Siswa',
             },
             {
               key: '2',
               icon: <UploadOutlined />,
-              label: 'Tambah Data Siswa',
+              label: 'Tambah Data',
             },
+            {
+              key: '3',
+              icon: <TableOutlined />,
+              label: 'Daftar Pelanggaran',
+            }
           ]}
         />
       </Sider>
@@ -83,8 +90,10 @@ const Index: React.FC = () => {
         {
           menuKey === '1' ? (
             <ListSiswa/>
-          ) : (
+          ) : menuKey === '2' ? (
             <AddDataSiswa/>
+          ) : (
+            <ListPelanggaran/>
           )
         }
       </Layout>

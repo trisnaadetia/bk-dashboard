@@ -140,7 +140,7 @@ const TableSiswa: React.FC = () => {
         ...getColumnSearchProps('name'),
         colSpan: 2,
         align: 'left',
-        width: '20%'
+        width: '25%'
     },
     {
         title: 'Kelas',
@@ -162,13 +162,7 @@ const TableSiswa: React.FC = () => {
         render: (jenisPelanggaran: string[]) => (
             <span>
             {jenisPelanggaran.map((tag) => {
-                let color = tag.length > 10 ? 'geekblue' : 'green';
-                if (tag === 'Merokok') {
-                color = 'volcano';
-                }
-                if (tag === 'Mencuri') {
-                    color = 'yellow';
-                }
+                let color = 'volcano'
                 return (
                 <Tag color={color} key={tag}>
                     {tag.toUpperCase()}
@@ -177,7 +171,7 @@ const TableSiswa: React.FC = () => {
             })}
             </span>
         ),
-        width: '50%'
+        width: '45%'
     },
     {
         title: 'Total Score',
@@ -196,7 +190,7 @@ const TableSiswa: React.FC = () => {
         key: '1',
         name: 'John Brown',
         kelas: 7,
-        jenisPelanggaran: ['Merokok'],
+        jenisPelanggaran: ['A1'],
         totalScore: 70,
         jenisKelamin: 'L'
     },
@@ -204,7 +198,7 @@ const TableSiswa: React.FC = () => {
         key: '2',
         name: 'Jim Green',
         kelas: 8,
-        jenisPelanggaran: ['Minuman Keras', 'Merokok', 'Berkelahi'],
+        jenisPelanggaran: ['A2', 'B1', 'B3'],
         totalScore: 89,
         jenisKelamin: 'L'
     },
@@ -212,7 +206,7 @@ const TableSiswa: React.FC = () => {
         key: '3',
         name: 'Joe Black',
         kelas: 8,
-        jenisPelanggaran: ['Berkelahi'],
+        jenisPelanggaran: ['C1'],
         totalScore: 70,
         jenisKelamin: 'P'
     },
@@ -220,7 +214,7 @@ const TableSiswa: React.FC = () => {
         key: '4',
         name: 'Jim Red',
         kelas: 9,
-        jenisPelanggaran: ['Mencuri', 'Merokok', 'Berkelahi'],
+        jenisPelanggaran: ['C3', 'C4', 'D1'],
         totalScore: 89,
         jenisKelamin: 'P'
     },

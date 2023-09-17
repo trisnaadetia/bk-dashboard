@@ -75,7 +75,6 @@ const SearchSelectUser: React.FC = () => {
 
   return (
     <DebounceSelect
-      size="large"
       mode='multiple'
       value={value}
       placeholder="Pilih Siswa"

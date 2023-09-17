@@ -31,7 +31,10 @@ const ListSiswa: React.FC = () => {
       <Skeleton loading={loading} active/>
         { 
           !loading && (
-            <TableSiswa/>
+            <>
+              <h3 style={{ marginBottom: '1rem' }}>Daftar Siswa</h3>
+              <TableSiswa/>
+            </>
           )
         }
     </Content>
