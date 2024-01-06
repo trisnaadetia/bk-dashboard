@@ -1,103 +1,174 @@
 import React, { useState } from 'react';
-import Image from 'next/image';
-import {
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-  UploadOutlined,
-  UserOutlined,
-  TableOutlined
-} from '@ant-design/icons';
-import { Layout, Menu, theme } from 'antd';
-import type { MenuProps } from 'antd';
-import { Button, Dropdown, message, Space, Tooltip } from 'antd';
-import ListSiswa from '@/components/list-siswa';
-import AddDataSiswa from '@/components/add-data-siswa';
-import ListPelanggaran from '@/components/list-pelanggaran';
+import { Col, Row, Input, Button, ConfigProvider, Spin } from 'antd';
+import styles from '../styles/Index.module.css';
+import { Montserrat } from 'next/font/google'
+import Image from 'next/image'
+import { useRouter } from 'next/router'
+import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 
-const { Header, Sider, Content } = Layout;
+const monserrat = Montserrat({
+  subsets: ["latin"],
+  weight: "400",
+});
 
-const handleButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-  message.info('Click on left button.');
-  console.log('click left button', e);
-};
-
-const handleMenuClick: MenuProps['onClick'] = (e) => {
-  message.info('Click on menu item.');
-  console.log('click', e);
-};
-
-const items: MenuProps['items'] = [
-  {
-    label: 'Logout',
-    key: '1',
-  }
-];
-
-const menuProps = {
-  items,
-  onClick: handleMenuClick,
-};
+const RegisButton = (props:any) => (
+  <ConfigProvider
+    theme={{
+      token: {
+        colorPrimary: '#1677ff',
+        borderRadius: 5,
+        colorBorder: '#1677ff'
+      },
+    }}
+  >
+    <Button className={styles.regisButton}
+      onClick={props.handleSetStatus}
+    >
+      {props.status === 'login'? 'Signup now' : 'Back to login' }
+    </Button>
+  </ConfigProvider>
+);
 
 const Index: React.FC = () => {
-  const [collapsed, setCollapsed] = useState(false);
-  const [menuKey, setMenuKey] = useState('1');
+  const [userData, setUserData] = useState({
+    userName: '',
+    password: '',
+    fullName: ''
+  })
+  const [status, setStatus] = useState('login')
+  const router = useRouter()
+  const [isLoading, setIsLoading] = useState(false)
 
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
+  const handleSetStatus = () => {
+    status === 'login' ? setStatus('signup') : setStatus('login')
+
+    setUserData({
+      userName: '',
+      password: '',
+      fullName: ''
+    })
+  }
+
+  const handleInputData = (event:any) => {
+    setUserData({
+      ...userData,
+      [event.target.name] : event.target.value
+    })
+  }
+
+  const handleLogin = () => {
+    setIsLoading(true)
+    router.push('/home')
+  }
+
+  const handleSignUp = () => {
+    setIsLoading(true)
+    // handleSetStatus()
+  }
 
   return (
-    <Layout style={{ height: "100vh" }}>
-      <Sider trigger={null} collapsible collapsed={collapsed}>
-        <div className="profile">
-          <Image width={40} height={40} src="/logos/logo_smpn.png" alt="profile"/>
-        </div>
-        <Menu
-          theme="dark"
-          mode="inline"
-          defaultSelectedKeys={['1']}
-          onSelect={({ item, key}) => setMenuKey(key)}
-          items={[
-            {
-              key: '1',
-              icon: <UserOutlined />,
-              label: 'Daftar Siswa',
-            },
-            {
-              key: '2',
-              icon: <UploadOutlined />,
-              label: 'Tambah Data',
-            },
-            {
-              key: '3',
-              icon: <TableOutlined />,
-              label: 'Daftar Pelanggaran',
-            }
-          ]}
-        />
-      </Sider>
-      <Layout className="site-layout">
-        <Header style={{ padding: 0, background: colorBgContainer }}>
-          {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
-            className: 'trigger',
-            onClick: () => setCollapsed(!collapsed),
-          })}
-          <span>Dashboard Siswa SMPN 1 CIPARAY</span>
-          {/* <Dropdown.Button menu={menuProps} icon={<UserOutlined />}>
-            Halo, Riska Elsa Pratiwi
-          </Dropdown.Button> */}
-        </Header>
-        {
-          menuKey === '1' ? (
-            <ListSiswa/>
-          ) : menuKey === '2' ? (
-            <AddDataSiswa/>
-          ) : (
-            <ListPelanggaran/>
-          )
-        }
-      </Layout>
-    </Layout>
+    <div className={monserrat.className}>
+      <Row className={styles.container}>
+        <Col span={6} className={styles.leftSide}>
+          <div className={styles.logo}>
+            <Image
+              src="/logos/logo_smpn.png"
+              width={60}
+              height={60}
+              alt="Logo"
+            />
+            <div className={styles.title}>
+              <h3>DASHBOARD GDS - SMPN 1 CIPARAY</h3>
+            </div>
+          </div>
+          { status === 'login' ? (
+            <>
+              <div>
+                <h4>Login into your account</h4>
+              </div>
+              <div className={styles.form}>
+                <h5 className={styles.label}>Email Address</h5>
+                <Input placeholder='juan@mail.com' value={userData.userName} name="userName" onChange={handleInputData}/>
+                <h5 className={styles.label}>Password</h5>
+                <Input.Password
+                  placeholder="Enter your password"
+                  name="password"
+                  value={userData.password}
+                  onChange={handleInputData}
+                  iconRender={(visible) => (visible ? <EyeTwoTone rev={undefined} /> : <EyeInvisibleOutlined rev={undefined} />)}
+                />
+                {!isLoading ? (
+                  <Button className={styles.loginButton} type="primary" onClick={handleLogin}>Login now</Button>
+                ):(
+                  <div className={styles.spin}>
+                    <Spin size='large'/>
+                  </div>
+                )}
+              </div>
+              <Row className={styles.contain}>
+                <Col span={10} className={styles.col}>
+                  <div className={styles.line}/>
+                </Col>
+                <Col span={4} className={styles.col}>
+                  OR
+                </Col>
+                <Col span={10} className={styles.col}>
+                  <div className={styles.line}/>
+                </Col>
+              </Row>
+              <RegisButton status={status} handleSetStatus={handleSetStatus}/>
+            </>
+          ) :(
+            <>
+              <div>
+                <h4>Signup for your account</h4>
+              </div>
+              <div className={styles.form}>
+                <h5 className={styles.label}>Fullname</h5>
+                <Input placeholder='Your full name' value={userData.fullName} name="fullName" onChange={handleInputData}/>
+                <h5 className={styles.label}>Email Address</h5>
+                <Input placeholder='juan@mail.com' value={userData.userName} name="userName" onChange={handleInputData}/>
+                <h5 className={styles.label}>Password</h5>
+                <Input.Password
+                  placeholder="Enter your password"
+                  name="password"
+                  value={userData.password}
+                  onChange={handleInputData}
+                  iconRender={(visible) => (visible ? <EyeTwoTone rev={undefined} /> : <EyeInvisibleOutlined rev={undefined} />)}
+                />
+                {!isLoading ? (
+                  <Button className={styles.loginButton} type="primary" onClick={handleSignUp}>Signup now</Button>
+                ):(
+                  <div className={styles.spin}>
+                    <Spin size='large'/>
+                  </div>
+                )}
+              </div>
+              <Row className={styles.contain}>
+                <Col span={10} className={styles.col}>
+                  <div className={styles.line}/>
+                </Col>
+                <Col span={4} className={styles.col}>
+                  OR
+                </Col>
+                <Col span={10} className={styles.col}>
+                  <div className={styles.line}/>
+                </Col>
+              </Row>
+              <RegisButton status={status} handleSetStatus={handleSetStatus}/>
+            </>
+          ) }
+        </Col>
+        <Col span={18} className={styles.rightSide}>
+          <Image
+            src="/images/ilustration.svg"
+            width={900}
+            height={700}
+            alt="Logo"
+          />
+        </Col>
+      </Row>
+    </div>
   );
 };
 
